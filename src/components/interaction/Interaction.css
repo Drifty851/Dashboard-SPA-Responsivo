@@ -1,0 +1,261 @@
+/* ==========================================================
+   ZONA DE INTERACCIÓN: componentes flotantes
+   (Las animaciones de apertura y cierre van en la Fase 4)
+   ========================================================== */
+
+/* Reset del <dialog> nativo */
+.dialog {
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-lg);
+}
+
+.dialog::backdrop {
+  background: var(--color-backdrop);
+}
+
+/* ==========================================================
+   MICROINTERACCIONES DE APERTURA / CIERRE (4D)
+   Entrada: 250–300ms ease-out · Salida: 200ms ease-in
+   .is-closing la pone Dialog.jsx antes de llamar a dialog.close()
+   ========================================================== */
+.dialog[open]::backdrop {
+  animation: fade-in var(--duration-base) var(--ease-out);
+}
+
+.dialog.is-closing::backdrop {
+  animation: fade-out var(--duration-fast) var(--ease-in) forwards;
+}
+
+.modal[open] {
+  animation: modal-in var(--duration-base) var(--ease-out);
+}
+
+.modal.is-closing {
+  animation: modal-out var(--duration-fast) var(--ease-in) forwards;
+}
+
+/* Móvil: la hoja sube desde abajo */
+.drawer[open] {
+  animation: sheet-in var(--duration-slow) var(--ease-out);
+}
+
+.drawer.is-closing {
+  animation: sheet-out var(--duration-fast) var(--ease-in) forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+}
+
+@keyframes modal-out {
+  to { opacity: 0; transform: translateY(8px) scale(0.96); }
+}
+
+@keyframes sheet-in {
+  from { transform: translateY(100%); }
+}
+
+@keyframes sheet-out {
+  to { transform: translateY(100%); }
+}
+
+@keyframes drawer-in {
+  from { transform: translateX(100%); }
+}
+
+@keyframes drawer-out {
+  to { transform: translateX(100%); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px); }
+}
+
+/* ---------- Panel de configuración ----------
+   Móvil: hoja inferior (bottom sheet)
+   ≥768px: panel lateral derecho a toda la altura */
+.drawer {
+  inset: auto 0 0 0;
+  width: 100%;
+  margin: 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.drawer__inner {
+  display: flex;
+  flex-direction: column;
+  max-height: 90dvh;
+}
+
+.drawer__header {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Barrita de "arrastrar" típica de las hojas inferiores */
+.drawer__handle {
+  position: absolute;
+  top: var(--space-2);
+  left: 50%;
+  width: 2.5rem;
+  height: 0.25rem;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  transform: translateX(-50%);
+}
+
+.drawer__title {
+  font-size: var(--font-size-lg);
+}
+
+.drawer__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.drawer__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.drawer__footer {
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.drawer__status {
+  min-height: 1.25rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-primary-text);
+}
+
+@media (min-width: 768px) {
+  /* Escritorio: el panel se desliza desde la derecha */
+  .drawer[open] {
+    animation-name: drawer-in;
+  }
+
+  .drawer.is-closing {
+    animation-name: drawer-out;
+  }
+
+  .drawer {
+    inset: 0 0 0 auto;
+    width: min(28rem, 100%);
+    height: 100dvh;
+    border-radius: 0;
+  }
+
+  .drawer__inner {
+    height: 100%;
+    max-height: none;
+  }
+
+  .drawer__handle {
+    display: none;
+  }
+
+  .drawer__header {
+    padding: var(--space-5);
+  }
+
+  .drawer__body {
+    padding: var(--space-5);
+  }
+
+  .drawer__footer {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .drawer__footer .btn-group {
+    justify-content: flex-end;
+  }
+}
+
+/* ---------- Modal de confirmación ---------- */
+.modal {
+  margin: auto; /* el reset global (* { margin: 0 }) anula el centrado nativo del <dialog> */
+  width: min(28rem, calc(100% - 2rem));
+  border-radius: var(--radius-md);
+}
+
+.modal__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.modal__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.modal__title {
+  font-size: var(--font-size-lg);
+}
+
+.modal__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .modal__actions {
+    justify-content: flex-end;
+  }
+}
+
+/* ---------- Toast ---------- */
+.toast-region {
+  position: fixed;
+  inset: auto 0 var(--space-4) 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--space-4);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-text);
+  color: var(--color-surface);
+  font-size: var(--font-size-sm);
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  animation: toast-in var(--duration-base) var(--ease-out);
+}

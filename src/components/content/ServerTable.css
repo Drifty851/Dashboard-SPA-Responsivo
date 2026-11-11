@@ -1,0 +1,308 @@
+/* ==========================================================
+   TABLA DE SERVIDORES
+   Mobile-first: en pantallas chicas cada fila es una TARJETA
+   (grid + etiquetas con attr(data-label)). Desde 1280px vuelve
+   a ser una tabla normal.
+   ========================================================== */
+.server-table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---------- Filtros: GRID en móvil, FLEXBOX desde tablet ---------- */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: end;
+}
+
+.filters__search,
+.filters__clear {
+  grid-column: 1 / -1;
+}
+
+.server-table__count {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Badge de estado ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  width: fit-content;
+  padding: 0.125rem 0.625rem;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+.badge--online {
+  background: var(--color-success-soft);
+  color: var(--color-success-text);
+}
+
+.badge--warning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning-text);
+}
+
+.badge--offline {
+  background: var(--color-danger-soft);
+  color: var(--color-danger-text);
+}
+
+/* ---------- Medidor de CPU / RAM ---------- */
+.meter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.meter__track {
+  flex: 1;
+  min-width: 3rem;
+  max-width: 6rem;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+}
+
+.meter__fill {
+  display: block;
+  width: var(--value);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transition:
+    width var(--duration-slow) var(--ease-out),
+    background-color var(--duration-slow) var(--ease-out);
+}
+
+.meter__fill[data-level='warning'] {
+  background: var(--color-warning);
+}
+
+.meter__fill[data-level='danger'] {
+  background: var(--color-danger);
+}
+
+.meter__value {
+  min-width: 3.5ch;
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Tabla → tarjetas (móvil) ---------- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.data-table thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.data-table tbody {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--space-3);
+}
+
+.data-table tr {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.data-table td {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* Etiqueta de columna generada desde el atributo data-label */
+.data-table td::before {
+  content: attr(data-label);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.data-table__name,
+.data-table__actions,
+.data-table__empty {
+  grid-column: 1 / -1;
+}
+
+/* td.clase: misma especificidad que ".data-table td::before" + 1, para ganarle */
+.data-table td.data-table__name::before,
+.data-table td.data-table__actions::before,
+.data-table td.data-table__empty::before {
+  content: none;
+}
+
+.data-table__name strong {
+  font-size: var(--font-size-md);
+}
+
+.data-table__name span {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.data-table__empty {
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Paginación ---------- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.pagination__status {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.pagination__pages {
+  display: none;
+}
+
+.icon--flip {
+  transform: rotate(180deg);
+}
+
+/* ---------- Tablet ---------- */
+@media (min-width: 768px) {
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .filters__search {
+    flex: 1 1 16rem;
+  }
+
+  .filters .field:not(.filters__search) {
+    flex: 0 1 12rem;
+  }
+
+  .filters__clear {
+    margin-left: auto;
+  }
+
+  .pagination__status {
+    display: none;
+  }
+
+  .pagination__pages {
+    display: flex;
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+  }
+}
+
+/* ---------- Escritorio amplio: tabla real ---------- */
+@media (min-width: 1280px) {
+  .table-wrap {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .data-table thead {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+
+  .data-table tbody {
+    display: table-row-group;
+  }
+
+  .data-table tr {
+    display: table-row;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .data-table th,
+  .data-table td {
+    display: table-cell;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .data-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .data-table tbody tr {
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .data-table tbody tr:hover {
+    background: var(--color-surface-alt);
+  }
+
+  .data-table th {
+    background: var(--color-surface-alt);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .data-table td::before {
+    content: none;
+  }
+
+  .data-table__name strong,
+  .data-table__name span {
+    display: block;
+  }
+
+  .data-table__actions .btn-group {
+    flex-wrap: nowrap;
+  }
+}

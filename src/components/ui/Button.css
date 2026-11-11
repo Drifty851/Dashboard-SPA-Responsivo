@@ -1,0 +1,161 @@
+/* ==========================================================
+   BOTONES — 5 ESTADOS
+   Default · Hover · Focus (visible) · Disabled · Loading
+   + grupos de botones con FLEXBOX
+   ========================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min); /* 44px: zona táctil mínima (3D) */
+  padding-inline: var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  /* Microinteracción: transición de color y "pulsación" (4D: 200ms) */
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+/* ---------- 1) DEFAULT (por variante) ---------- */
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.btn--secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.btn--danger {
+  background: var(--color-danger);
+  color: var(--color-on-primary);
+}
+
+.btn--danger-ghost {
+  background: var(--color-surface);
+  border-color: var(--color-danger-text);
+  color: var(--color-danger-text);
+}
+
+/* ---------- 2) HOVER (solo dispositivos con puntero; nunca si está deshabilitado o cargando) ---------- */
+@media (hover: hover) {
+  .btn--primary:hover:not(:disabled, [aria-busy='true']) {
+    background: var(--color-primary-hover);
+  }
+
+  .btn--secondary:hover:not(:disabled, [aria-busy='true']) {
+    background: var(--color-surface-hover);
+    border-color: var(--color-text-muted);
+  }
+
+  .btn--ghost:hover:not(:disabled, [aria-busy='true']) {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+
+  .btn--danger:hover:not(:disabled, [aria-busy='true']) {
+    background: var(--color-danger-hover);
+  }
+
+  .btn--danger-ghost:hover:not(:disabled, [aria-busy='true']) {
+    background: var(--color-danger-soft);
+  }
+}
+
+/* Pulsación: el botón "se hunde" un poco al hacer clic */
+.btn:active:not(:disabled, [aria-busy='true']) {
+  transform: scale(0.97);
+}
+
+/* ---------- 3) FOCUS visible y accesible (teclado) ---------- */
+.btn:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- 4) DISABLED ---------- */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- 5) LOADING ---------- */
+.btn[aria-busy='true'] {
+  cursor: progress;
+}
+
+.btn[aria-busy='true'].btn--secondary,
+.btn[aria-busy='true'].btn--ghost {
+  color: var(--color-text-muted);
+}
+
+.btn[aria-busy='true'].btn--primary,
+.btn[aria-busy='true'].btn--danger {
+  opacity: 0.85;
+}
+
+/* Botón de alternancia activo (rango de tiempo, pausa) */
+.btn[aria-pressed='true'] {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary-text);
+  color: var(--color-primary-text);
+}
+
+/* Botón solo-icono: cuadrado de 44×44 */
+.btn--icon {
+  flex-shrink: 0; /* Flexbox no debe encogerlo por debajo de 44×44 */
+  width: var(--touch-min);
+  padding: 0;
+}
+
+/* El toggle de tema no se pinta "presionado": el icono ya comunica el estado */
+.theme-toggle[aria-pressed='true'] {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================
+   GRUPOS DE BOTONES — FLEXBOX
+   ========================================================== */
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.btn-group--inline {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.btn-group--inline > .btn {
+  flex: 1 1 0;
+}
+
+@media (min-width: 768px) {
+  .btn-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-group--inline > .btn {
+    flex: 0 0 auto;
+  }
+}

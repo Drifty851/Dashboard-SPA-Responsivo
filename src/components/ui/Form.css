@@ -1,0 +1,133 @@
+/* ==========================================================
+   CAMPOS DE FORMULARIO — 5 ESTADOS
+   Default · Hover · Focus (visible) · Disabled · Loading
+   (input de texto, número, fecha, <select> y <textarea>)
+   ========================================================== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.field__label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.field__hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.field__error {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-danger-text);
+}
+
+/* ---------- 1) DEFAULT ---------- */
+.input,
+.select,
+.textarea {
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-md); /* 16px evita el zoom automático en iOS */
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+/* ---------- 2) HOVER ---------- */
+@media (hover: hover) {
+  .input:hover:not(:disabled, :focus, [aria-busy='true']),
+  .select:hover:not(:disabled, :focus, [aria-busy='true']),
+  .textarea:hover:not(:disabled, :focus, [aria-busy='true']) {
+    border-color: var(--color-text-muted);
+    background: var(--color-surface-alt);
+  }
+}
+
+/* ---------- 3) FOCUS: contorno visible + borde de marca ---------- */
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 1px;
+  border-color: var(--color-primary);
+}
+
+/* Error de validación (no es uno de los 5 estados, pero se combina con ellos) */
+.input[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.input[aria-invalid='true']:focus {
+  outline-color: var(--color-danger);
+}
+
+/* ---------- 4) DISABLED ---------- */
+.input:disabled,
+.select:disabled,
+.textarea:disabled {
+  opacity: 0.5;
+  background: var(--color-surface-alt);
+  cursor: not-allowed;
+}
+
+/* ---------- 5) LOADING ----------
+   .control envuelve el campo y muestra un spinner a la derecha */
+.control {
+  position: relative;
+}
+
+.control__spinner {
+  position: absolute;
+  top: calc(var(--touch-min) / 2 - 0.5rem);
+  right: var(--space-3);
+  color: var(--color-primary-text);
+  pointer-events: none;
+}
+
+/* Deja espacio al spinner (y a la flecha nativa en <select> y fecha) */
+.control.is-loading .input,
+.control.is-loading .textarea {
+  padding-right: 2.5rem;
+}
+
+.control.is-loading .select,
+.control.is-loading .input[type='date'] {
+  padding-right: 4rem;
+}
+
+.control.is-loading .select ~ .control__spinner,
+.control.is-loading .input[type='date'] ~ .control__spinner {
+  right: 2.5rem;
+}
+
+.input[aria-busy='true'],
+.select[aria-busy='true'],
+.textarea[aria-busy='true'] {
+  opacity: 1; /* el <select> cargando usa disabled, pero no debe verse "apagado" */
+  border-style: dashed;
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  cursor: progress;
+}

@@ -1,0 +1,143 @@
+/* ==========================================================
+   VISTA DASHBOARD
+   ========================================================== */
+
+/* Indicador "En vivo" — FLEXBOX */
+.live-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-end: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.live-status__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-text-muted);
+}
+
+.live-status__dot.is-live {
+  background: var(--color-success);
+}
+
+/* ==========================================================
+   BENTO GRID — CSS GRID (bidimensional)
+   Columnas iguales; cada tarjeta decide cuántas ocupa (span).
+   ========================================================== */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* móvil: 2 columnas */
+  gap: var(--space-3);
+}
+
+/* Móvil: tarjetas de estado en 2×2, el resto a todo el ancho */
+.bento__item--status {
+  grid-column: span 1;
+}
+
+.bento__item--chart,
+.bento__item--network,
+.bento__item--table,
+.bento__item--alerts {
+  grid-column: span 2;
+}
+
+.bento__item--chart {
+  min-height: 18rem;
+}
+
+/* ---------- Tablet: 4 columnas ---------- */
+@media (min-width: 768px) {
+  .bento {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-flow: dense; /* rellena huecos con las tarjetas de 2 columnas */
+    gap: var(--space-4);
+  }
+
+  .bento__item--chart,
+  .bento__item--table {
+    grid-column: span 4;
+  }
+
+  .bento__item--network,
+  .bento__item--alerts {
+    grid-column: span 2;
+  }
+}
+
+/* ---------- Escritorio amplio: 12 columnas (igual al wireframe) ---------- */
+@media (min-width: 1280px) {
+  .bento {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .bento__item--status {
+    grid-column: span 3;
+  }
+
+  .bento__item--chart,
+  .bento__item--table {
+    grid-column: span 8;
+  }
+
+  .bento__item--network,
+  .bento__item--alerts {
+    grid-column: span 4;
+  }
+
+  .bento__item--chart,
+  .bento__item--network {
+    min-height: 20rem;
+  }
+}
+
+/* ---------- Lista de alertas — FLEXBOX (icono + texto + etiqueta) ---------- */
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.alert-list__item {
+  display: flex;
+  align-items: center; /* icono, texto y etiqueta alineados verticalmente */
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  font-size: var(--font-size-sm);
+}
+
+.alert-list__item .icon {
+  flex-shrink: 0;
+}
+
+.alert-list__item--offline .icon {
+  color: var(--color-danger);
+}
+
+.alert-list__item--warning .icon {
+  color: var(--color-warning);
+}
+
+.alert-list__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-list__tag {
+  flex-shrink: 0;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.empty-text {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

@@ -1,0 +1,100 @@
+/* ==========================================================
+   TARJETA — FLEXBOX (columna)
+   ┌──────────────────────────┐
+   │ [icono] Título   [acción]│ ← cabecera: flex en fila
+   │                          │
+   │  cuerpo (flex: 1)        │ ← crece y empuja el pie abajo
+   │                          │
+   │ [pie / botones]          │
+   └──────────────────────────┘
+   ========================================================== */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  /* Microinteracción: la tarjeta "se levanta" al pasar el mouse (250ms) */
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    background-color var(--duration-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-border-strong);
+  }
+}
+
+.card__header {
+  display: flex;
+  align-items: center; /* icono y título alineados verticalmente */
+  gap: var(--space-2);
+}
+
+.card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* el icono nunca se aplasta */
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-text);
+}
+
+.card__title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.card__body {
+  flex: 1; /* ocupa el alto disponible */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.card__footer {
+  margin-top: auto;
+}
+
+/* Valor numérico de las tarjetas de estado */
+.stat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline; /* número y unidad sobre la misma línea base */
+  gap: var(--space-1) var(--space-2);
+}
+
+.stat__value {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+}
+
+.stat__meta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: var(--space-5);
+  }
+
+  .stat__value {
+    font-size: var(--font-size-2xl);
+  }
+}

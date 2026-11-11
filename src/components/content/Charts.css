@@ -1,0 +1,102 @@
+/* ==========================================================
+   GRÁFICAS (SVG propio, sin librerías)
+   ========================================================== */
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  margin: 0;
+}
+
+/* Leyenda — FLEXBOX */
+.chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.chart__legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.chart__legend strong {
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart__dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: var(--radius-full);
+}
+
+/* Eje Y + área de dibujo — GRID de 2 columnas */
+.chart__plot {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-2);
+  min-height: 9rem;
+}
+
+.chart__axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+.chart__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.chart__grid {
+  stroke: var(--chart-grid);
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Barras de red — FLEXBOX: las barras se apoyan en la base */
+.bars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-1);
+  min-height: 7rem;
+  padding-block-start: var(--space-2);
+  border-bottom: 1px solid var(--chart-grid);
+}
+
+.bars__bar {
+  flex: 1;
+  height: var(--h);
+  min-height: 2px;
+  border-radius: 4px 4px 0 0;
+  background: var(--chart-1);
+  opacity: 0.85;
+  transition: height var(--duration-slow) var(--ease-out);
+}
+
+.bars__bar:last-child {
+  opacity: 1;
+}
+
+.chart__current {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.chart__current strong {
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}

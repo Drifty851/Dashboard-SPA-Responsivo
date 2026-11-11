@@ -1,0 +1,125 @@
+/* ==========================================================
+   SIDEBAR — FLEXBOX (columna)
+   [Marca]
+   [Dashboard]   ← lista en columna
+   [Servidores]
+   [Configuración]
+        ↕  margin-top: auto
+   [Colapsar menú]  ← pegado abajo
+   ========================================================== */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-3);
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+}
+
+.sidebar__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  padding-inline: var(--space-3);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary-text);
+}
+
+.sidebar__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* Cada enlace: icono + texto alineados en una fila */
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: var(--touch-min);
+  padding-inline: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-align: left;
+}
+
+.sidebar__link {
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .sidebar__link:hover:not([aria-current='page']) {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+}
+
+.sidebar__link:focus-visible {
+  outline-offset: -3px; /* el contorno queda dentro del sidebar y no se recorta */
+  border-radius: var(--radius-sm);
+}
+
+/* "¿Dónde estoy?": el enlace de la página actual */
+.sidebar__link[aria-current='page'] {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-text);
+  font-weight: 600;
+}
+
+/* "Colapsar" solo tiene sentido en escritorio */
+.sidebar__collapse {
+  display: none;
+  margin-top: auto; /* lo empuja al fondo de la columna */
+}
+
+/* ---------- Escritorio: sidebar persistente y retráctil ---------- */
+@media (min-width: 1024px) {
+  .sidebar__close {
+    display: none; /* la X solo existe en móvil */
+  }
+
+  .sidebar__collapse {
+    display: flex;
+  }
+
+  /* Modo colapsado: solo iconos (el texto sigue disponible para lectores) */
+  .app--collapsed .sidebar {
+    padding-inline: var(--space-2);
+  }
+
+  .app--collapsed .sidebar__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .app--collapsed .sidebar__top,
+  .app--collapsed .sidebar__brand,
+  .app--collapsed .sidebar__link {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .app--collapsed .sidebar__collapse .icon {
+    transform: rotate(180deg);
+  }
+}
