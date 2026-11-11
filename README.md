@@ -6,13 +6,7 @@ Práctica integral de **Interfaces Web, Unidad 3**. Está hecha con **HTML5 sem�
 
 ![Dashboard en escritorio](docs/capturas/responsivo-dashboard-escritorio.png)
 
-## Entregables
 
-| Entregable | Enlace |
-|---|---|
-| Archivo de Figma: User Persona, wireframes y prototipo | https://www.figma.com/design/UaJmUGeYrtdT7yZPxot4KA/Dashboard-Cloud-%E2%80%93-UX |
-| Prototipo interactivo (modo Presentar) | _Pegar aquí el enlace de "Share prototype"_ |
-| Reporte de validación | [`docs/REPORTE-VALIDACION.md`](docs/REPORTE-VALIDACION.md) |
 
 ## Funcionalidades
 
